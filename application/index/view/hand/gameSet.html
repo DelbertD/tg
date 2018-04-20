@@ -1,0 +1,276 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url}" data-auto="true" method="post">
+    <input id="action" type="hidden" name="action" value="exec" />
+    <input type="hidden" name="unit" value="" />
+    <div id="setDiv" style="margin-left: 25px;">
+        <fieldset>
+            <legend>训练设置</legend>
+            <div class="layui-form layuiForm trainLayuiForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">训练部位：</label>
+                    <div class="layui-input-block">
+                        <select id="bid" name="bid" lay-verify="required" lay-filter="bid">
+                            <option></option>
+                            {foreach $xlbw as $v}
+                            <option exe-id="{$v.id}" value="{$v.bid}">{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">体侧：</label>
+                    <div id="lor" class="layui-input-block">
+                        <input type="radio" name="lor" value="1" title="左" checked lay-filter="lor">
+                        <input type="radio" name="lor" value="2" title="右" lay-filter="lor">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">范围：</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                            <input type="text" id="min" name="min" lay-verify="required" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">--</div>
+                        <div class="layui-input-inline">
+                            <input type="text" id="max" name="max" lay-verify="required" class="layui-input">
+                        </div>
+                        <a onclick="getValByExe()" href="javascript:;" style="line-height: 38px;color:#009688">检测范围</a>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="width: 70%">
+                    <label class="layui-form-label">配重值：</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                        <select id="pz" name="pz">
+                            <option value=""></option>
+                            {foreach $pz as $k => $v}
+                            <option value='{$k}'>{$v}</option>
+                            {/foreach}
+                        </select>
+                        </div>
+                        <span id="unit" style="height: 38px;line-height: 38px">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">休息时间间隔：</label>
+                    <div class="layui-input-block">
+                        <select name="sp" lay-verify="required" lay-search>
+                            <option value="">请选择休息时间</option>
+                            {foreach $sp as $k => $v}
+                            <option value={$k}>{$v}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset style="margin-bottom: 20px;">
+            <legend>游戏设置</legend>
+            <div class="layui-form layuiForm trainLayuiForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">难度：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="lev" value="1" title="简单" checked>
+                        <input type="radio" name="lev" value="2" title="中等">
+                        <input type="radio" name="lev" value="3" title="困难" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="tm" value="2" title="2分钟" checked>
+                        <input type="radio" name="tm" value="5" title="5分钟">
+                        <input type="radio" name="tm" value="8" title="8分钟" >
+                        <input type="radio" name="tm" value="10" title="10分钟" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">音效：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="msic" value="1" title="欢快" checked>
+                        <input type="radio" name="msic" value="2" title="平静">
+                        <input type="radio" name="msic" value="3" title="古典" >
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="pull-right">
+                <input type="submit" lay-filter="action" lay-submit class="layui-btn layui-btn-warm" value="加入处方">
+                <input type="submit" lay-submit class="layui-btn" value="直接开始">
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    require(['layui'], function () {
+        layui.config({dir: baseUrl + '../plugs/layui/'});
+        layui.use('form', function(){
+            var form = layui.form;
+            var $ = layui.jquery;
+            form.on('select(bid)', function(data){
+                resetVal();
+                var ret = getVal();
+                if (ret.lor && ret.bid){
+                    var url = "{:url('index/hand/getRange')}";
+                    $.get(url, {"bid":ret.bid,"lor":ret.lor}, function (res) {
+                        if (res.suc == 1){
+                            layer.msg(
+                                '成功获取到范围',
+                                {
+                                    icon :1,
+                                    time : 2 * 1000,
+                                    shade: 0.6,
+                                    anim: 2
+                                },
+                                function () {
+                                    setVal(res);
+                                }
+                            );
+                        }else {
+                            layer.msg(
+                                '暂无范围可选，请检测范围',
+                                {
+                                    time : 2 * 1000,
+                                    shade: 0.6,
+                                    anim: 2
+                                },
+                                function () {
+                                    resetVal();
+                                }
+                            );
+                        }
+                    })
+                }
+                return false;
+            });
+            form.on('radio(lor)', function(data){
+                resetVal();
+                var ret = getVal();
+                if (ret.lor && ret.bid){
+                    var url = "{:url('index/hand/getRange')}";
+                    $.get(url, {"bid":ret.bid,"lor":ret.lor}, function (res) {
+                        if (res.suc == 1){
+                            layer.msg(
+                                '成功获取到范围',
+                                {
+                                    icon :1,
+                                    time : 2 * 1000,
+                                    shade: 0.6,
+                                    anim: 2
+                                },
+                                function () {
+                                    setVal(res);
+                                }
+                            );
+                        }else {
+                            layer.msg(
+                                '暂无范围可选，请检测范围',
+                                {
+                                    time : 2 * 1000,
+                                    shade: 0.6,
+                                    anim: 2
+                                },
+                                function () {
+                                    resetVal();
+                                }
+                            );
+                        }
+                    })
+                }
+                return false;
+            });
+
+            form.on('submit(action)', function(data){
+                $('#action').val('add');
+            });
+
+        });
+    })
+    function getVal() {
+        var ret = {};
+        ret.bid = $('#bid option:selected').val();
+        ret.lor = $('#lor input:checked').val();
+        return ret;
+    }
+
+    function setVal(res) {
+        $('#max').val(res.max);
+        $('#min').val(res.min);
+        $('#unit').text('单位：' + res.unit);
+        $('input[name=unit]').val(res.unit);
+        $('select[name=pz]').val(res.unit);
+        $("#pz").find("option[value=" + res.pz + "]").attr('selected', 'selected');
+        window.form.render('select');
+    }
+
+    function resetVal() {
+        $('#max').val('');
+        $('#min').val('');
+        $('#unit').text('');
+        $('input[name=unit]').val('');
+    }
+
+    function getValByExe() {
+        var ret = getVal();
+        if (!ret.bid){
+            layer.msg(
+                '请选择训练部位',
+                {
+                    time : 2 * 1000,
+                    shade: 0.6,
+                    anim: 2
+                },function () {
+
+                });
+            return false;
+        }
+        if (!ret.lor){
+            layer.msg(
+                {
+                    icon: 2,
+                    time : 2 * 1000,
+                    shade: 0.6,
+                    anim: 2
+                },function () {
+
+                })
+            return false;
+        }
+        var url = "{:url('index/hand/getValByExe')}";
+        var index = layer.load(1,{shade:0.5,time:5*1000});
+        $.get(url, {'bid':ret.bid,'lor':ret.lor}, function (res) {
+            if (res.suc == 1){
+                layer.close(index);
+                layer.msg(
+                    '成功获取到范围',
+                    {
+                        icon: 1,
+                        time : 2 * 1000,
+                        shade: 0.6,
+                        anim: 2
+                    },
+                    function () {
+                        setVal(res);
+                    }
+                );
+            }else {
+                layer.close(index);
+                layer.msg(
+                    '错误！请重新尝试',
+                    {
+                        time : 2 * 1000,
+                        shade: 0.6,
+                        anim: 2
+                    })
+                return false;
+            }
+        });
+    }
+    window.form.render();
+</script>

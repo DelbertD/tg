@@ -1,0 +1,12 @@
+!.gitignore
+!.gitattributes
+.idea
+/.svn
+/runtime
+/nbproject
+/public/qicai
+/public/games
+/static/upload
+/application/database.php
+/application/.htaccess
+*.min.min.*

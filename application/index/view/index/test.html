@@ -1,0 +1,237 @@
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>评估训练</legend>
+    <div class="layui-field-box">
+        <div class="layui-row">
+            <hr>
+            <div class="layui-inline pull-left">
+                <a href="javascript:;" id="gb" class="layui-btn layui-btn-primary" onmouseover="mesTips('返回上一级',this)"><i class="layui-icon">&#xe65c;</i></a>
+                <a href="javascript:;" onclick="checkArm();" class="layui-btn layui-btn-radius"  onmouseover="mesTips('点击刷新设备连接信息',this)" style="background-color: #A67727;"><i class="layui-icon" style="font-size: 30px;">&#xe631;</i></a>
+                <a href="javascript:;" class="layui-btn layui-btn-radius" style="background-color: #5FB878;"><i class="layui-icon">&#xe628;</i> 已连接</a>
+            </div>
+            <!--当前患者-->
+            <!--<div class="layui-inline" style="font-size: 20px;font-family: '华文楷体';margin-left:10%">
+                当前患者：
+                <span style="color:#5FB878" id="curPat">123</span>
+            </div>-->
+            <div class="layui-inline pull-right">
+                <div class="layui-inline">
+                    <form class="layui-form pull-right" action="" method="post">
+                        <input type="hidden" name="url" value="{:url('index/Index/pgReady',['pid'=>input('param.pid')])}">
+                        <div class="layui-inline">
+                            <label class="layui-form-label layui-col-md4" style="color: #5FB878;">患者:</label>
+                            <div class="layui-input-block layui-col-md8" style="margin-left: 0;">
+                                <select name="paid" id="user" lay-verify="required" lay-search lay-filter="user">
+                                    <option value="0">--选择患者--</option>
+                                    <option value="" selected>456</option>
+                                    <option value="">123</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="">
+                                <a href="javascript:;" onclick="addpa();" onmouseover="mesTips('点击添加患者',this)" class="layui-btn"><i class="layui-icon">&#xe654;</i>添加</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="layui-tab layui-tab-card" lay-filter="maintab">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="1">评估</li>
+                <li lay-id="2">训练</li>
+            </ul>
+            <div class="layui-tab-content">
+                <!--评估器材start-->
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-fluid">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md8 layui-col-xs8 layui-col-sm8">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        评测项目
+                                    </div>
+                                    <div class="layui-card-body equipCardBody">
+                                        <div class="contents">
+                                            <div class="equipment">
+                                                <a href="javascript:;" onclick="qcSet(this);" class="equipmentA">
+                                                    <img src="../src/images/index/jsjzy.jpg" alt="器材图标"/>
+                                                    <span class="layui-badge">1</span>
+                                                </a>
+                                                <p><span class="layui-badge-rim"></span></p>
+                                            </div>
+                                            <div class="equipment">
+                                                <a href="javascript:;" onclick="qcSet(this);" class="equipmentA">
+                                                    <img src="../src/images/index/jsjzy.jpg" alt="器材图标"/>
+                                                    <span class="layui-badge layui-bg-blue">0</span>
+                                                </a>
+                                                <p><span class="layui-badge-rim"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4 layui-col-xs4 layui-col-sm4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        评测序列
+                                    </div>
+                                    <div class="layui-card-body equipCardTable">
+                                        <!--lay-data="{height:315, url:'/demo/table/user/', id:'test'}"-->
+                                        <table class="layui-table" lay-data="{id:'test'}">
+                                            <thead>
+                                            <tr>
+                                                <th lay-data="{width:80}">状态</th>
+                                                <th>测评项目</th>
+                                                <th lay-data="{width:80}">操作</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--训练start-->
+                <div class="layui-tab-item">
+                    <div class="layui-fluid">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md6 layui-col-xs6 layui-col-sm6">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        训练项目
+                                    </div>
+                                    <div class="layui-card-body trainCardImg">
+                                        <div class="contents">
+                                            <div class="equipment">
+                                                <a href="javascript:;" onclick="qcSet(this);" class="equipmentA">
+                                                    <img src="../src/images/index/jsjzy.jpg" alt="器材图标"/>
+                                                    <span class="layui-badge">1</span>
+                                                </a>
+                                                <p><span class="layui-badge-rim"></span></p>
+                                            </div>
+                                            <div class="equipment">
+                                                <a href="javascript:;" onclick="qcSet(this);" class="equipmentA">
+                                                    <img src="../src/images/index/jsjzy.jpg" alt="器材图标"/>
+                                                    <span class="layui-badge layui-bg-blue">0</span>
+                                                </a>
+                                                <p><span class="layui-badge-rim"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6 layui-col-xs6 layui-col-sm6">
+                                <div class="layui-row grid-demo layui-col-space10" style="margin-bottom:10px">
+                                    <div class="layui-col-md6 layui-col-xs6 layui-col-sm6">
+                                        <div class="layui-tab" style="background-color: #fff;" lay-filter="ultab">
+                                            <ul class="layui-tab-title">
+                                                <li class="layui-fluid layui-this" lay-id="1">训练设置</li>
+                                                <li lay-id="2">游戏设置</li>
+                                            </ul>
+                                            <div class="layui-tab-content">
+                                                <div class="layui-tab-item layui-show">
+                                                    <div class="layui-form layuiForm trainLayuiForm">
+                                                        <div class="layui-form-item">
+                                                            <label class="layui-form-label">训练部位：</label>
+                                                            <div class="layui-input-block">
+                                                                <select name="city" lay-verify="" lay-search>
+                                                                    <option>请选择</option>
+                                                                    <option value="010">layer</option>
+                                                                    <option value="021">form</option>
+                                                                    <option value="0571" selected>layim</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-form-item">
+                                                            <label class="layui-form-label">体侧：</label>
+                                                            <div class="layui-input-block">
+                                                                <select name="city" lay-verify="" lay-search>
+                                                                    <option>请选择</option>
+                                                                    <option value="010">左侧</option>
+                                                                    <option value="021">右侧</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-form-item">
+                                                            <label class="layui-form-label">范围：</label>
+                                                            <div class="layui-input-block">
+                                                                <div class="layui-input-inline" style="width: 32%;">
+                                                                    <input type="text" name="price_min" placeholder="num" autocomplete="off" class="layui-input">
+                                                                </div>
+                                                                <div class="layui-form-mid" style="width: 10%;">-</div>
+                                                                <div class="layui-input-inline" style="width: 33%;">
+                                                                    <input type="text" name="price_max" placeholder="num" autocomplete="off" class="layui-input">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-form-item">
+                                                            <div class="pull-right" style="width: 100px;">
+                                                                <input type="button" class="layui-btn" value="保存设置">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-tab-item">
+                                                    <div class="layui-form layuiForm trainLayuiForm">
+                                                        <div class="layui-form-item">
+                                                            <label class="layui-form-label">难度：</label>
+                                                            <div class="layui-input-block">
+                                                                <select name="city" lay-verify="" lay-search>
+                                                                    <option>请选择</option>
+                                                                    <option value="010">简单</option>
+                                                                    <option value="021">中等</option>
+                                                                    <option value="0571" selected>复杂</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-form-item">
+                                                            <label class="layui-form-label">时间：</label>
+                                                            <div class="layui-input-block">
+                                                                <select name="city" lay-verify="" lay-search>
+                                                                    <option>请选择</option>
+                                                                    <option value="010">1</option>
+                                                                    <option value="021">2</option>
+                                                                    <option value="021">3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="layui-form-item">
+                                                            <div class="pull-right" style="width: 100px;">
+                                                                <input type="button" class="layui-btn" value="保存设置">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md6 layui-col-xs6 layui-col-sm6">
+                                        <div class="layui-card">
+                                            <div class="layui-card-header">
+                                            </div>
+                                            <div class="layui-card-body trainCardTable">
+                                                <table class="layui-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>状态</th>
+                                                        <th>训练项目</th>
+                                                        <th>操作</th>
+                                                        <th>得分</th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

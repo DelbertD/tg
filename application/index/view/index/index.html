@@ -1,0 +1,79 @@
+{extend name="extra@admin/main"}
+<body>
+{block name='body'}
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩" class="left_open">
+                        <i class="layui-icon layui-icon-shrink-right" id="left_open"></i>
+                    </a>
+                </li>
+                <span class="layui-nav-bar" style="left: 38px; top: 48px; width: 0px; opacity: 0;"></span>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                        贤心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a data-modal="index/user/chPwd" data-area="['20%','40%']" data-title="修改密码" href="javascript:">修改密码</a></dd>
+                        <dd><a data-open="index/user/lists"  href="javascript:">医生管理</a></dd>
+                        <dd><a href="">安全退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-side layui-side-menu layui-bg-green">
+            <div class="layui-side-scroll">
+                <a data-open="index/index/main" href="javascript:void(0)">
+                    <div class="layui-logo" lay-href="home/console.html">
+                        <span>layuiAdmin</span>
+                    </div>
+                </a>
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                    {foreach $nav as $v}
+                    <li data-name="home" class="layui-nav-item">
+                        <a data-open="index/{$v.url}/index" href="javascript:;" lay-direction="1">
+                            <i onmouseover="tips('{$v.name}',this)" class="fa {$v.icon} navicon"></i>
+                            <span>{$v.name}</span>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+                <span class="layui-nav-bar"></span>
+            </div>
+        </div>
+        <div class="layui-body layer-main-container" id="LAY_app_body">
+
+        </div>
+    </div>
+</div>
+</body>
+{/block}
+{block name="script"}
+<script>
+    //JavaScript代码区域
+    require(['layui'], function () {
+        layui.use('element', function(){
+            var element = layui.element;
+
+        });
+    })
+    function tips(mes,pos)
+    {
+        var layer = layui.layer;
+        layer.tips(mes,pos,{tips:2});
+    }
+
+    function mesTips(mes,pos)
+    {
+        var layer = layui.layer;
+        layer.tips(mes,pos,{tips:1});
+    }
+
+</script>
+{/block}

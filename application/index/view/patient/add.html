@@ -1,0 +1,85 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-23 18:56
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url ?? ''}" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名：</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" required  lay-verify="required" placeholder="请输入姓名..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别：</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="1" title="男"  checked>
+            <input type="radio" name="sex" value="2" title="女">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年龄：</label>
+        <div class="layui-input-block">
+            <input type="text" name="age" required  lay-verify="required|age" placeholder="请输入年龄..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号：</label>
+        <div class="layui-input-block">
+            <input type="text" name="card" required  lay-verify="required|card" placeholder="请输入身份证号..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">患号：</label>
+        <div class="layui-input-block">
+            <input type="text" name="num" required  lay-verify="required|num" placeholder="请输入患号..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话：</label>
+        <div class="layui-input-block">
+            <input type="text" name="tel" required  lay-verify="required|tel" placeholder="请输入电话..." autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">患病史：</label>
+        <div class="layui-input-block">
+            <textarea name="desc" placeholder="评估人士患病史或简介..." class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始治疗时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="btime" lay-verify="required" class="layui-input" id="time">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否激活：</label>
+        <div class="layui-input-block">
+            <input type="radio" name="flag" value="1" title="是"  checked>
+            <input type="radio" name="flag" value="2" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block pull-right">
+            <button class="layui-btn" lay-submit>添加</button>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <script>
+        require(['layui'], function () {
+            layui.config({dir: baseUrl + '../plugs/layui/'});
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#time'
+                    ,range: true
+                    ,theme: 'molv'
+                    ,calendar: true
+                });
+            });
+        })
+        window.form.render();
+    </script>
+</form>

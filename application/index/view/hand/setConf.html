@@ -1,0 +1,21 @@
+<!--
+ * User: Jasmine2
+ * Date: 2017-7-23 18:56
+ * Email: youjingqiang@gmail.com
+ * Copyright (c) Guangzhou Zhishen Data Service co,. Ltd
+-->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url ?? ''}" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">体侧：</label>
+        <div class="layui-input-block">
+            <input type="radio" name="lor" value="1" title="左手">
+            <input type="radio" name="lor" value="2" title="右手" checked>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-right" style="position: absolute;bottom: 20px; right: 40px;">
+        <button class="layui-btn" type='submit'>开始评估</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

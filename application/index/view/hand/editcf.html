@@ -1,0 +1,157 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url}" data-auto="true" method="post">
+    <div id="setDiv" style="margin-left: 25px;">
+        <fieldset>
+            <legend>训练设置</legend>
+            <div class="layui-form layuiForm trainLayuiForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">训练部位：</label>
+                    <div class="layui-input-block">
+                        <select id="bid" name="bid" lay-verify="required" lay-filter="bid">
+                            <option></option>
+                            {volist name="bw" id="v"}
+                            <option value="{$v.id}" {if condition="$v['id']==$old['bid']"}selected{/if}>{$v.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">体侧：</label>
+                    <div id="lor" class="layui-input-block">
+                        {eq name="old.lor" value="1"}
+                        <input type="radio" name="lor" value="1" title="左" checked lay-filter="lor">
+                        <input type="radio" name="lor" value="2" title="右" lay-filter="lor">
+                        {else/}
+                        <input type="radio" name="lor" value="1" title="左" lay-filter="lor">
+                        <input type="radio" name="lor" value="2" title="右" checked lay-filter="lor">
+                        {/eq}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">范围：（单位：{$old.unit}）</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                            <input type="text" id="min" name="min" value="{$old.min}" lay-verify="required" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">--</div>
+                        <div class="layui-input-inline">
+                            <input type="text" id="max" name="max" value="{$old.max}" lay-verify="required" class="layui-input">
+                        </div>
+                        <span id="unit">
+
+                        </span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">配重值：</label>
+                    <div class="layui-input-block">
+                        <select name="pz" lay-verify="required" lay-search id="pz">
+                            <option value=""></option>
+                            {volist name="pz" id="v"}
+                            <option value="{$key}" {if condition="$key == $old['pz']"} selected {/if}>{$v}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">休息时间间隔：</label>
+                    <div class="layui-input-block">
+                        <select name="sp" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {volist name="sp" id="v"}
+                            <option value="{$key}" {if condition="$key*60 == $old['sp']"} selected {/if}>{$v}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset style="margin-bottom: 20px;">
+            <legend>游戏设置</legend>
+            <div class="layui-form layuiForm trainLayuiForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">难度：</label>
+                    <div class="layui-input-block">
+                        {eq name="old.lev" value="1"}
+                        <input type="radio" name="lev" value="1" title="简单" checked>
+                        <input type="radio" name="lev" value="2" title="中等">
+                        <input type="radio" name="lev" value="3" title="困难" >
+                        {/eq}
+                        {eq name="old.lev" value="2"}
+                        <input type="radio" name="lev" value="1" title="简单">
+                        <input type="radio" name="lev" value="2" title="中等"  checked>
+                        <input type="radio" name="lev" value="3" title="困难" >
+                        {/eq}
+                        {eq name="old.lev" value="3"}
+                        <input type="radio" name="lev" value="1" title="简单">
+                        <input type="radio" name="lev" value="2" title="中等">
+                        <input type="radio" name="lev" value="3" title="困难"  checked>
+                        {/eq}
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">时间：</label>
+                    <div class="layui-input-block">
+                        {eq name="old.tm" value="120"}
+                        <input type="radio" name="tm" value="2" title="2分钟" checked>
+                        <input type="radio" name="tm" value="5" title="5分钟">
+                        <input type="radio" name="tm" value="8" title="8分钟" >
+                        <input type="radio" name="tm" value="10" title="10分钟" >
+                        {/eq}
+                        {eq name="old.tm" value="300"}
+                        <input type="radio" name="tm" value="2" title="2分钟">
+                        <input type="radio" name="tm" value="5" title="5分钟" checked>
+                        <input type="radio" name="tm" value="8" title="8分钟" >
+                        <input type="radio" name="tm" value="10" title="10分钟" >
+                        {/eq}
+                        {eq name="old.tm" value="480"}
+                        <input type="radio" name="tm" value="2" title="2分钟" >
+                        <input type="radio" name="tm" value="5" title="5分钟">
+                        <input type="radio" name="tm" value="8" title="8分钟" checked>
+                        <input type="radio" name="tm" value="10" title="10分钟" >
+                        {/eq}
+                        {eq name="old.tm" value="600"}
+                        <input type="radio" name="tm" value="2" title="2分钟" >
+                        <input type="radio" name="tm" value="5" title="5分钟">
+                        <input type="radio" name="tm" value="8" title="8分钟" >
+                        <input type="radio" name="tm" value="10" title="10分钟" checked>
+                        {/eq}
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">音效：</label>
+                    <div class="layui-input-block">
+                        {eq name="old.msic" value="1"}
+                        <input type="radio" name="msic" value="1" title="欢快" checked>
+                        <input type="radio" name="msic" value="2" title="平静">
+                        <input type="radio" name="msic" value="3" title="古典">
+                        {/eq}
+                        {eq name="old.msic" value="2"}
+                        <input type="radio" name="msic" value="1" title="欢快">
+                        <input type="radio" name="msic" value="2" title="平静" checked>
+                        <input type="radio" name="msic" value="3" title="古典">
+                        {/eq}
+                        {eq name="old.msic" value="3"}
+                        <input type="radio" name="msic" value="1" title="欢快">
+                        <input type="radio" name="msic" value="2" title="平静">
+                        <input type="radio" name="msic" value="3" title="古典" checked>
+                        {/eq}
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="pull-right">
+                <input type="submit" lay-submit class="layui-btn" value="保存修改">
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    require(['layui'], function () {
+        layui.config({dir: baseUrl + '../plugs/layui/'});
+    })
+    window.form.render();
+</script>

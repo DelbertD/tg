@@ -1,0 +1,13 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url ?? ''}" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">处方名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-right" style="position: absolute;bottom: 20px; right: 40px;">
+        <button lay-submit class="layui-btn" type='submit'>保存</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

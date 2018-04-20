@@ -1,0 +1,164 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url}" data-auto="true" method="post">
+    <input type="hidden" name="id" value="{$user.id ?? ''}" />
+    <div id="setDiv" style="margin-left: 25px;">
+        <fieldset style="margin-bottom: 20px;">
+            <legend>用户信息</legend>
+            <div class="layui-form layuiForm trainLayuiForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required|name" autocomplete="off" class="layui-input" value="{$user.name ?? ''}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别：</label>
+                    <div class="layui-input-block">
+                        {if isset($user.sex)}
+                            {eq name="user.sex" value='1'}
+                            <input type="radio" name="sex" value="1" title="男" checked>
+                            <input type="radio" name="sex" value="2" title="女">
+                            {else /}
+                            <input type="radio" name="sex" value="1" title="男">
+                            <input type="radio" name="sex" value="2" title="女" checked>
+                            {/eq}
+                        {else /}
+                            <input type="radio" name="sex" value="1" title="男" checked>
+                            <input type="radio" name="sex" value="2" title="女">
+                        {/if}
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">tel：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tel" lay-verify="required|tel" autocomplete="off" class="layui-input" value="{$user.tel ?? ''}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">年龄：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="age" lay-verify="required|age" autocomplete="off" class="layui-input" value="{$user.age ?? ''}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">身份证：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="id_card" lay-verify="required|" autocomplete="off" class="layui-input" value="{$user.id_card ?? ''}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学历：</label>
+                    <div class="layui-input-block">
+                        <select name="xueli" lay-verify="required">
+                            <option value="">请选择</option>
+                            {foreach $xueli as $v}
+                            {if isset($user)}
+                                {eq name="user.xueli" value="$v"}
+                                <option value="{$v}" selected>{$v}</option>
+                                {else /}
+                                <option value="{$v}">{$v}</option>
+                                {/eq}
+                            {else /}
+                                <option value="{$v}">{$v}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">科室：</label>
+                    <div class="layui-input-block">
+                        <select name="depa_id" lay-verify="required">
+                            <option value="">请选择</option>
+                            <option value="1" selected>康复中心</option>
+                        </select>
+                    </div>
+                </div>
+                {if !isset($user.id)}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pass" id="pass2" lay-verify="required|pass" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                {/if}
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">描述：</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" placeholder="请填写用户详细信息..." class="layui-textarea">{$user.desc ?? ''}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否启用：</label>
+                    <div style="margin: 0" class="layui-input-block layui-form">
+                        {if isset($user.id)}
+                            {eq name="user.is_use" value='1'}
+                            <input type="checkbox" name="is_use[]" value="1" title="启用" checked>
+                            {else /}
+                            <input type="checkbox" name="is_use[]" value="1" title="启用">
+                            {/eq}
+                        {else /}
+                            <input type="checkbox" name="is_use[]" value="1" title="启用" checked>
+                        {/if}
+
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="pull-right">
+                <input type="submit" lay-submit class="layui-btn" value="保存">
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form',function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        //表单验证
+        form.verify({
+            name: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '名称不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+$/.test(value)){
+                    return '名称不能全为数字';
+                }
+                if (value.length < 2 || value.length > 10){
+                    return '名称长度不符合';
+                }
+            }
+            ,age:[
+                /^[\d]{1,3}$/,
+                '年龄必须是纯数字，且必须是1到3位'
+            ]
+            ,tel:[
+                /^[1][3456789][0-9]{9}$/,
+                '手机号码格式不正确！'
+            ]
+            ,id_card:[
+                /^([1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2})$/,
+                '不是有效的身份证号码！'
+            ]
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,code:[/^\d+$/
+                ,'邮编必须是纯数字'
+            ]
+        });
+    });
+    window.form.render();
+</script>

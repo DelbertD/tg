@@ -1,0 +1,134 @@
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>医生管理</legend>
+    <!-- 表单搜索 开始 -->
+    <a style="margin-top: 10px;" data-modal="index/user/add" data-title="添加" data-area="['40%','90%']" class="layui-btn layui-btn-sm pull-left" href="javascript:;"><i class="layui-icon">&#xe654;</i> 添加</a>
+    <form class="layui-form form-search pull-right" action="{$url ?? ''}" onsubmit="return false" method="get">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="color: #000;">关键词</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="keyword" value="{$keyword ?? ''}" placeholder="请输入关键词" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button style="margin-left: 10px;" class="layui-btn layui-btn-sm" type='submit' ><i class="fa fa-search"></i> 搜索</button>
+                </div>
+            </tr>
+            </thead>
+        </table>
+    </form>
+    <!-- 表单搜索 结束 -->
+
+    <form onsubmit="return false;" data-auto="" method="post">
+        <table class="layui-table">
+            <colgroup>
+                <col width="5%">
+                <col width="3%">
+                <col width="6%">
+                <col width="5%">
+                <col width="5%">
+                <col width="5%">
+                <col width="8%">
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="8%">
+                <col width="10%">
+                <col width="15%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th class='list-table-check-td text-center'>
+                    <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
+                </th>
+                <th class="text-center">Id</th>
+                <th class="text-center" >姓名</th>
+                <th class="text-center" >性别</th>
+                <th class="text-center" >年龄</th>
+                <th class="text-center" >学历</th>
+                <th class="text-center" >电话</th>
+                <th class="text-center" >科室</th>
+                <th class="text-center" >添加时间</th>
+                <th class="text-center" >最后登陆时间</th>
+                <th class="text-center" >最后登陆ip</th>
+                <th class="text-center" >登录次数</th>
+                <th class="text-center" >是否启用</th>
+                <th class="text-center" >操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {if isset($list)}
+            {foreach $list as $v}
+            <tr>
+                <td class='list-table-check-td text-center'>
+                    <input class="list-check-box" value='{$v.id}' type='checkbox'/>
+                </td>
+                <td class="text-center">{$v.id}</td>
+                <td class="text-center">{$v.name}</td>
+                {eq name='v.sex' value='1'}
+                <td class="text-center">男</td>
+                {else /}
+                <td class="text-center">女</td>
+                {/eq}
+
+                <td class="text-center">{$v.age ?? ''}</td>
+                <td class="text-center">{$v.xueli ?? ''}</td>
+                <td class="text-center">{$v.tel ?? ''}</td>
+                <td class="text-center">{$v.depa_id ?? '暂无'}</td>
+                <td class="text-center">{$v.at}</td>
+                <td class="text-center">{$v.lt}</td>
+                <td class="text-center">{$v.ip}</td>
+                <td class="text-center">{$v.num ?? 0}</td>
+                <td class="text-center">
+                    {eq name='v.is_use' value='1'}
+                        <div style="margin: 0" class="layui-input-block layui-form">
+                            <input data-id="{$v.id}" lay-filter="qy" type="checkbox" name="like[write]" value="1" title="启用" checked>
+                        </div>
+                    {/eq}
+                    {eq name='v.is_use' value='2'}
+                    <div style="margin: 0" class="layui-input-block layui-form">
+                        <input data-id="{$v.id}" lay-filter="qy" type="checkbox" name="like[write]" value="2" title="启用">
+                    </div>
+                    {/eq}
+                </td>
+
+                <td class="text-center">
+                    <a type="button" style="color: #5FB878" href="javascript:;" data-modal="index/report/lists/type/3/id/{$v.id}" ><i class="fa fa-search"></i> 查看</a> |
+                    <a type="button" data-title="编辑" data-area="['40%','90%']" style="color: #5FB878" href="javascript:;" data-modal="index/user/edit/id/{$v.id}" ><i class="fa fa-edit"></i> 编辑</a>
+                </td>
+            </tr>
+            {/foreach}
+            {/if}
+            <tr>
+                <td colspan="14">
+                    <a style="margin-top: 10px;" data-update data-field='delete' data-action="index/user/dels" class="layui-btn layui-btn-danger layui-btn-sm pull-left" href="javascript:;">批量删除</a>
+                    <div class="pull-right">{$page ?? ''}</div></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+</fieldset>
+<style>
+    th.text-center,td.text-center {
+        text-align: center;
+    }
+</style>
+<script>
+    layui.use(['form'], function () {
+        form.on('checkbox(qy)', function(obj){
+            var val = obj.elem.checked ? 1 : 2;
+            var url = "{:url('index/user/qyUser')}";
+            var id = $(obj.elem).attr('data-id');
+            $.get(url,{"id":id,"val":val},function(str){
+                layer.tips(str.msg, obj.othis);
+            });
+        });
+    });
+    window.form.render();
+</script>
+

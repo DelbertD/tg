@@ -1,0 +1,76 @@
+<div class="layui-container">
+    <div class="layui-row">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>评估训练</legend>
+            <div class="layui-field-box">
+                <div class="layui-row">
+                    <hr>
+                    <div class="layui-inline pull-left">
+                        <a href="javascript:;" id="gb" class="layui-btn layui-btn-primary" onmouseover="mesTips('返回上一级',this)"><i class="layui-icon">&#xe65c;</i></a>
+                        <a href="javascript:;" onclick="checkArm();" class="layui-btn layui-btn-radius"  onmouseover="mesTips('点击刷新设备连接信息',this)" style="background-color: #A67727;"><i class="layui-icon" style="font-size: 30px;">&#xe631;</i></a>
+                        <a href="javascript:;" class="layui-btn layui-btn-radius" style="background-color: #5FB878;"><i class="layui-icon">&#xe628;</i> 已连接</a>
+                    </div>
+                    <!--当前患者-->
+                    <!--<div class="layui-inline" style="font-size: 20px;font-family: '华文楷体';margin-left:10%">
+                        当前患者：
+                        <span style="color:#5FB878" id="curPat">123</span>
+                    </div>-->
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开始治疗时间：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="btime" lay-verify="required" class="layui-input" id="time">
+                        </div>
+                    </div>
+            </div>
+        </fieldset>
+        <div class="layui-col-xs1">
+            你的内容 3/12
+        </div>
+        <div class="layui-col-xs1">
+            你的内容 3/12
+        </div>
+    </div>
+</div>
+<script>
+    require(['layui'], function () {
+        layui.config({dir: baseUrl + '../plugs/layui/'});
+        layui.use(['element','layer','form','table'],function() {
+            var element = layui.element;
+            var form = layui.form;
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            //评估模块Hash地址的定位
+            element.tabChange('maintab', lay_id);
+            element.on('tab(maintab)', function (elem) {
+                location.hash = 'type=' + $(this).attr('lay-id');
+                if($(this).attr('lay-id') == 2){
+                    trainMaxH();
+                }
+            });
+            function trainMaxH(){
+                var h = [];
+                var trainCardImg = $(".trainCardImg");
+                var trainCardImgH = trainCardImg.height();
+                var trainLayuiForm0 = $(".trainLayuiForm").eq(0);
+                var trainLayuiFormH0 = trainLayuiForm0.height();
+                var trainLayuiForm1 = $(".trainLayuiForm").eq(1);
+                var trainLayuiFormH1 = trainLayuiForm1.height();
+                h.push(trainCardImgH);
+                h.push(trainLayuiFormH0);
+                h.push(trainLayuiFormH1);
+                var maxH = Math.max.apply(null, h);
+                trainCardImg.height(maxH);
+                trainLayuiForm0.height(maxH);
+                trainLayuiForm1.height(maxH);
+            }
+            var hashType = window.location.hash;
+            var len = hashType.length;
+            len = len-1;
+            if(hashType.charAt(len) == 2){
+                trainMaxH();
+            }
+        });
+    })
+    window.form.render();
+</script>

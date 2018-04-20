@@ -1,0 +1,34 @@
+
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{$url ?? ''}" data-auto="true" method="post">
+    <input type="hidden" name="id" autocomplete="off" class="layui-input" value="{:session(config('user.user_session_key'))['id']}" readonly="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">当前账户：</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" autocomplete="off" class="layui-input" value="{:session(config('user.user_session_key'))['name']}" readonly="readonly" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">旧密码：</label>
+        <div class="layui-input-block">
+            <input type="tel" name="opass" id="opass" lay-verify="required|pass" autocomplete="off" class="layui-input" value="">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-block">
+            <input type="text" name="pass" id="pass2" lay-verify="required|pass" autocomplete="off" class="layui-input" value="">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码：</label>
+        <div class="layui-input-block">
+            <input type="text" title="pass2" name="rpass" lay-verify="required|pass|rpass" autocomplete="off" class="layui-input" value="">
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-right" style="position: absolute;bottom: 20px; right: 40px;">
+        <input type="submit" lay-filter="action" lay-submit class="layui-btn" value="加入处方">
+    </div>
+    <script>window.form.render();</script>
+</form>

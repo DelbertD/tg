@@ -1,0 +1,571 @@
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>评估训练</legend>
+    <div class="layui-field-box">
+        <div class="layui-row">
+            <hr>
+            <div class="layui-inline pull-left">
+                <a href="javascript:;" onclick="checkArm();" class="layui-btn layui-btn-radius"  onmouseover="mesTips('点击刷新设备连接信息',this)" style="background-color: #A67727;"><i class="layui-icon" style="font-size: 30px;">&#xe631;</i></a>
+                <a href="javascript:;" class="layui-btn layui-btn-radius" style="background-color: #5FB878;"><i class="layui-icon">&#xe628;</i> 已连接</a>
+            </div>
+            <div class="layui-inline pull-right">
+                <div class="layui-inline">
+                    <form class="layui-form pull-right" action="" method="post">
+                        <div class="layui-inline">
+                            <label class="layui-form-label layui-col-md4" style="color: #000;">患者:</label>
+                            <div class="layui-input-block layui-col-md8" style="margin-left: 0;">
+                                <select name="paid" id="user" lay-verify="required" lay-search lay-filter="user">
+                                    <option value="0">--选择患者--</option>
+                                    {volist name="patients" id="vo"}
+                                    {if getCatchVar('curPat.id') == $vo.id}
+                                    <option value="{$vo.id}" selected>{$vo.name}</option>
+                                    {else/}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                    {/if}
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="">
+                                <a data-modal="{:url('index/patient/add')}" data-area="['35%','80%']" data-title="添加患者" href="javascript:;" class="layui-btn"><i class="layui-icon">&#xe654;</i>添加</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="cardChange">
+            <div class="cardTitle">
+                {eq name='type' value='1'}
+                <a data-open="index/hand/index/type/1" class="cardBtn cardBtnActive" href="javascript:;">评估</a>
+                {else /}
+                <a data-open="index/hand/index/type/1" class="cardBtn" href="javascript:;">评估</a>
+                {/eq}
+                {eq name='type' value='2'}
+                <a data-open="index/hand/index/type/2" class="cardBtn cardBtnActive" href="javascript:;">训练</a>
+                {else /}
+                <a data-open="index/hand/index/type/2" class="cardBtn" href="javascript:;">训练</a>
+                {/eq}
+                {eq name='type' value='3'}
+                <a data-open="index/hand/index/type/3" class="cardBtn cardBtnActive" href="javascript:;">报告</a>
+                {else /}
+                <a data-open="index/hand/index/type/3" class="cardBtn" href="javascript:;">报告</a>
+                {/eq}
+            </div>
+            <div class="cardContainer layui-tab-content">
+                {eq name='type' value='1'}
+                <!--评估-->
+                <div class="cardContent">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md8 layui-col-xs8 layui-col-sm8">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    评测项目
+                                </div>
+                                <div class="layui-card-body equipCardBody">
+                                    <div class="contents">
+                                        {foreach $data as $v}
+                                        <div class="equipment">
+                                            <a data-modal="{:url('index/hand/setConf',['id'=> $v['id']])}" data-title="{$v.en}配置" data-area="['30%','40%']" href="javascript:;" class="equipmentA">
+                                                <img src="__ICONS__/{$v.mp}" alt="器材图标"/>
+                                            </a>
+                                            <p><span class="layui-badge-rim">{$v.en}</span></p>
+                                        </div>
+                                        {/foreach}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4 layui-col-xs4 layui-col-sm4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    评测序列
+                                </div>
+                                <div class="layui-card-body equipCardTable">
+                                    <!--lay-data="{height:315, url:'/demo/table/user/', id:'test'}"-->
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="60%">
+                                            <col width="40%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center">测评项目</th>
+                                            <th style="text-align: center">状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {if !empty($pg)}
+                                        {foreach $pg as $v}
+                                        <tr>
+                                            <th style="text-align: center">{:getVal('h_exe.name.' . $v.id)}</th>
+                                            <th style="text-align: center">已评估</th>
+                                        </tr>
+                                        {/foreach}
+                                        {/if}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/eq}
+                {eq name='type' value='2'}
+                <!--训练-->
+                <div class="cardContent">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md8 layui-col-xs8 layui-col-sm8">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    训练项目
+                                </div>
+                                <div class="layui-card-body trainCardImg">
+                                    <div class="contents">
+                                        {foreach $data as $v}
+                                        <div class="equipment">
+                                            <a data-modal="{:url('index/hand/gameSet',['id'=> $v['id']])}" data-title="{$v.en}设置" data-area="['40%','80%']" href="javascript:;" class="equipmentA">
+                                                <img src="__ICONS__/{$v.mp}" alt="器材图标"/>
+                                            </a>
+                                            <p><span class="layui-badge-rim">{$v.en}</span></p>
+                                        </div>
+                                        {/foreach}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4 layui-col-xs4 layui-col-sm4">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    处方列表
+                                </div>
+                                <div class="layui-card-body" lay-size="sm">
+                                    <div class="layui-form">
+                                            <div class="layui-form-item layui-col-md6 layui-col-xs12 layui-col-sm12 pull-right">
+                                                <label class="layui-form-label">历史处方：</label>
+                                                <div class="layui-input-block">
+                                                    <select name="cf"  id="cf" lay-filter="cf">
+                                                        <option value=""></option>
+                                                        {volist name="cfList" id="v"}
+                                                        <option value="{$v.id}">{$v.name}</option>
+                                                        {/volist}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="10%">
+                                            <col width="15%">
+                                            <col width="25%">
+                                            <col width="20%">
+                                            <col width="15%">
+                                            <col width="15%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th class='list-table-check-td'>
+                                                <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
+                                            </th>
+                                            <th>状态</th>
+                                            <th>项目</th>
+                                            <th>顺序</th>
+                                            <th>得分</th>
+                                            <th>编辑</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {foreach $yxcf as $v}
+                                        <tr>
+                                            <td class='list-table-check-td'>
+                                                <input class="list-check-box" value='{$v.id}' type='checkbox'/>
+                                            </td>
+                                            <td>
+                                                {eq name="v.status" value='1'}
+                                                <i class="layui-icon">&#xe623;</i>
+                                                {/eq}
+                                                {eq name="v.status" value='2'}
+                                                <i class="layui-icon" style="color: #43D476;">&#xe616;</i>
+                                                {/eq}
+                                                {eq name="v.status" value='3'}
+                                                <i class="layui-icon" style="color:#ff0000;">&#x1007;</i>
+                                                {/eq}
+                                            </td>
+                                            <td>{$v.en}</td>
+                                            <td><input onblur="sort({$v['id']}, this)" id="sort" type="text" name="sort" value="{$v.sort ?? 0}" class="layui-input" style="height: 30px"/></td>
+                                            <td>{$v.score ?? 0} 分</td>
+                                            {eq name="v.status" value="1"}
+                                            <td><i data-modal="index/hand/editCf/id/{$v['id']}" data-area="['40%','80%']" data-title="修改设置" class="layui-icon" style="color: #5FB878;cursor: pointer;">&#xe642;</i></td>
+                                            {/eq}
+                                            {eq name="v.status" value="2"}
+                                            <td><i class="layui-icon">&#xe642;</i></td>
+                                            {/eq}
+                                            {eq name="v.status" value="3"}
+                                            <td><i class="layui-icon">&#xe642;</i></td>
+                                            {/eq}
+                                        </tr>
+                                        {/foreach}
+                                        <tr>
+                                            <td colspan="6">
+                                                <a data-update data-field='delete' data-action="index/hand/start/yxcf/1" class="layui-btn layui-btn-danger layui-btn-sm pull-left" href="javascript:;">清除处方</a>
+                                                <div class="pull-right">
+                                                    <a data-multi-modal data-action="index/hand/saveCf" data-title="保存" data-area="['25%','30%']" class="layui-btn layui-btn-sm layui-btn-warm" href="javascript:;">保存处方</a>
+                                                    <a onclick="start()" class="layui-btn layui-btn-sm" href="javascript:;">开始训练</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/eq}
+                {eq name='type' value='3'}
+
+                    <!-- 表单搜索 开始 -->
+                    <form class="layui-form form-search pull-right" action="{$url ?? ''}" onsubmit="return false" method="get">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-col-md4" style="color: #000;">患者</label>
+                                    <div class="layui-input-block layui-col-md8" style="margin-left: 0;">
+                                        <select name="pid">
+                                            <option value="0">请选择</option>
+                                            {volist name="patients" id="vo"}
+                                            {eq name="pid" value='$vo.id'}
+                                            <option value="{$vo.id}" selected>{$vo.name}</option>
+                                            {else /}
+                                            <option value="{$vo.id}">{$vo.name}</option>
+                                            {/eq}
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-col-md4" style="color: #000;">医师</label>
+                                    <div class="layui-input-block layui-col-md8" style="margin-left: 0;">
+                                        <select name="uid" lay-search>
+                                            <option value="0">请选择</option>
+                                            {foreach $user as $v}
+                                            {eq name="uid" value='$v.id'}
+                                            <option value="{$v.id}" selected>{$v.name}</option>
+                                            {else /}
+                                            <option value="{$v.id}">{$v.name}</option>
+                                            {/eq}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label layui-col-md4" style="color: #000;">类型</label>
+                                    <div class="layui-input-block layui-col-md8" style="margin-left: 0;">
+                                        <select name="e_t">
+                                            <option value="0">请选择</option>
+                                            {eq name="e_t" value='1'}
+                                            <option value="1" selected>评估</option>
+                                            {else /}
+                                            <option value="1">评估</option>
+                                            {/eq}
+                                            {eq name="e_t" value='2'}
+                                            <option value="2" selected>训练</option>
+                                            {else /}
+                                            <option value="2">训练</option>
+                                            {/eq}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn layui-btn-sm" type='submit' ><i class="fa fa-search"></i> 搜索</button>
+                                </div>
+                            </tr>
+                            </thead>
+                        </table>
+                    </form>
+                    <!-- 表单搜索 结束 -->
+
+                    <form onsubmit="return false;" data-auto="" method="post">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="10%">
+                                <col width="5%">
+                                <col width="5%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                            <tr style="text-align: center">
+                                <th style="text-align: center" class='list-table-check-td'>
+                                    <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
+                                </th>
+                                <th style="text-align: center" >Id</th>
+                                <th style="text-align: center" >器材名称</th>
+                                <th style="text-align: center" >训练部位</th>
+                                <th style="text-align: center" >类型</th>
+                                <th style="text-align: center" >体侧</th>
+                                <th style="text-align: center" >患者姓名</th>
+                                <th style="text-align: center" >医师</th>
+                                <th style="text-align: center" >开始时间</th>
+                                <th style="text-align: center" >结束时间</th>
+                                <th style="text-align: center" >操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $list as $v}
+                            <tr>
+                                <td class='list-table-check-td'>
+                                    <input class="list-check-box" value='{$v.id}' type='checkbox'/>
+                                </td>
+                                <td>{$v.id}</td>
+                                <td>{:getVal('h_exe.name.' . $v.exe_id)}</td>
+                                <td>{:getVal('h_bw.name.' . $v.bid)}</td>
+                                <td>{eq name='v.type' value='1'}
+                                    评估
+                                    {/eq}
+                                    {eq name='v.type' value='2'}
+                                    训练
+                                    {/eq}
+                                </td>
+                                <td>
+                                    {eq name='v.lor' value='1'}
+                                    左侧
+                                    {/eq}
+                                    {eq name='v.lor' value='2'}
+                                    右侧
+                                    {/eq}
+                                </td>
+                                <td>{:getVal('patient.name.' . $v.pid)}</td>
+                                <td>{:getVal('admin.name.' . $v.uid)}</td>
+                                <td>{$v.btime|date='Y-m-d H:i:s',###}</td>
+                                <td>{$v.etime|date='Y-m-d H:i:s',###}</td>
+                                <td class="text-center"><a type="button" style="color: #FFB800" href="javascript:;" data-modal="index/report/lists/type/3/id/{$v.id}" ><i class="fa fa-search"></i> 详情</a></td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="11"><a data-update data-field='delete' data-action="index/report/dels/type/3" class="layui-btn layui-btn-danger layui-btn-sm pull-left" href="javascript:;">批量删除</a><div class="pull-right">{$page}</div></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </form>
+
+
+                {/eq}
+            </div>
+        </div>
+    </div>
+</fieldset>
+<style>
+    #cardChange{
+        width:100%;
+    }
+    #cardChange .cardTitle{
+        width:100%;
+        height:40px;
+        line-height: 40px;
+        border-top:1px solid #E6E6E6;
+        border-bottom:1px solid #E6E6E6;
+    }
+    #cardChange .cardTitle .cardBtn{
+        padding:0 40px;
+        text-align: center;
+        height:40px;
+        display: inline-block;
+        border-left:1px solid #F2F2F2;
+    }
+    #cardChange .cardTitle .cardBtn.cardBtnActive{
+        background-color: #009688;
+        border-left:1px solid #E6E6E6;
+        border-right:1px solid #E6E6E6;
+        color: #ffffff;
+    }
+    #setDiv{
+        background-color: #fff;
+    }
+    table tr td {
+        text-align: center;
+    }
+
+    .layui-table th{
+        text-align: center;
+    }
+    .layui-tab-content
+    {
+        padding: 10px 0 0 0;
+    }
+    /****分页激活样式*****/
+</style>
+<script>
+    require(['layui'], function () {
+        layui.config({dir: baseUrl + '../plugs/layui/'});
+        layui.use(['element','layer','form','table','laypage'],function() {
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            form.on('select(user)', function(data){
+                var pid = data.value;
+                var url = "{:url('api/api/setPgr')}" + '?id=' + pid;
+                $.post(url, {'id':pid}, function (res) {
+                    if (res.valid == 1){
+                        layer.msg(
+                            '成功选择患者', {offset: '60px',time:1*1000},function(res){
+                                window.location.reload();
+                            }
+                        );
+                    }
+                })
+            });
+            //历史处方选中事件
+            form.on('select(cf)', function(data) {
+                var url = "index/hand/selectCf";
+                if(data.value  != '')
+                {
+                    $.post(url,{id:data.value},function(res){
+                        if(res.suc==1)
+                        {
+                            layer.msg(res.msg,{icon:1,anim:1,shade:0.5},function(index){
+                                location.reload(index);
+                            });
+                        }else{
+                            layer.msg(res.msg,{icon:5,anim:6,shade:0.5},function(index){
+                                location.reload(index);
+                            });
+                        }
+                    })
+                }
+                return false;
+
+            });
+            //按钮处理
+            var cardBtn = $("#cardChange .cardTitle .cardBtn");
+            cardBtn.click(function(){
+                var index = $("#cardChange .cardTitle .cardBtn").index($(this));
+                cardBtn.removeClass("cardBtnActive").eq(index).addClass("cardBtnActive");
+            });
+
+            //分页处理
+           $('.layui-laypage input').blur(function () {
+               $('.layui-laypage span').find('span').remove();
+               var val = parseInt($(this).val());
+               $(this).val(val);
+               if (val < 1){
+                   $(this).val(1);
+               }
+               var url = $('#go').attr('data-open');
+               url = url.replace(/page=\d+/, 'page=' + val);
+               $('#go').attr('data-open', url);
+           });
+
+           $('#limit').click(function () {
+                $('.layui-laypage span').find('span').remove();
+            });
+
+           $('#limit').change(function () {
+               $('.layui-laypage span').find('span').remove();
+               var limit = $(this).val();
+               $('.layui-laypage a').each(function () {
+                   var val = $(this).attr('data-open');
+                   if (typeof val === undefined){
+                       return false;
+                   }
+                   $(this).attr('data-open',  val + '&limit=' + limit);
+               });
+               var url = val.replace(/page=\d+/, 'page=1');
+               $.form.href(url, this);
+           })
+
+        });
+    });
+    function sort(id, obj) {
+        layui.config({dir: baseUrl + '../plugs/layui/'});
+        var $ = layui.jquery;
+        var sort = obj.value;
+        var partten = new RegExp(/\d+/);
+        if (partten.test(sort) && (sort + 0) > 0){
+            var url = "{:url('index/hand/changVal')}";
+            $.get(url, {"id":id,"val":sort}, function (res) {
+                if (res.suc == 1){
+                    layer.msg(
+                        '成功修改排序', {offset: '60px'}
+                    );
+                }
+            })
+        }
+        return false;
+    }
+
+    function start() {
+        var url = "{:url('index/hand/start')}";
+        var index = layer.load(1, {shade:0.5});
+        $.get(url, {}, function (res) {
+            if (res.suc == 1){
+                layer.close(index);
+                var sp = res.sp;
+                gameMsg(sp, '123', true);
+            }else {
+                layer.close(index);
+                layer.msg('训练结束', {icon:1,anim: 1,shade: 0.6}, function () {
+                    layer.confirm('是否保存本次处方训练报告？',function(res){
+                        alert(11);
+                    });
+                })
+            }
+        });
+    }
+
+    function gameMsg(second,content,ok){
+        layer.msg(content, {
+            time : second * 1000,
+            shade: 0.6,
+            anim: 2,
+            btn: ['暂停'],
+            yes: function(index, layero){
+                ok = false;
+                layer.close(index);
+                location.reload();
+            },
+            success: function(layero,index){
+                var i = second;
+                var timer = null;
+                var fn = function() {
+                    var msg = [
+                        parseInt(i / 60 % 60) + ' 分 ',
+                        parseInt(i % 60) + ' 秒'
+                    ].join("").replace(/\b(\d)\b/g, "0$1");
+                    layero.find(".layui-layer-content").text('下个游戏将在 ' + msg + '开始');
+                    if(!i) {
+                        layer.close(index);
+                        clearInterval(timer);
+                    }
+                    i--;
+                };
+                timer = setInterval(fn, 1000);
+                fn();
+            },
+        }, function() {
+            if (ok === true){
+                start();
+            }
+            //$("#btnSave").removeAttr("disabled");
+        });
+    }
+
+
+    function getMsg(sp) {
+        sp = sp ? sp : 5;
+        sp--;
+        return sp;
+    }
+    window.form.render();
+</script>
