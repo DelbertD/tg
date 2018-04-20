@@ -1,0 +1,72 @@
+.layui-tab-content .equipment{
+    display: inline-block;
+    width:100px;
+    height:150px;
+    margin-right:40px;
+}
+.layui-tab-content .equipment .equipmentA{
+    display: inline-block;
+    width:100px;
+    height:110px;
+    position:relative;
+}
+.layui-tab-content .equipment .equipmentA img{
+    width:100px;
+    height:100px;
+    border-radius: 20px;
+    box-shadow: 0 0 5px #8D8D8D;
+}
+.layui-tab-content .equipment .equipmentA .layui-badge{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+}
+.layui-tab-content .equipment p{
+    text-align: center;
+    width:100%;
+}
+.contents {
+    padding: 10px;
+}
+#qcset form{
+    margin-top:40px;
+}
+#qcset form .btnDiv{
+    position: absolute;
+    right: 40px;
+    top:285px;
+}
+.layui-layer .layui-layer-title{
+    text-align: center;
+}
+.layui-card-header{
+    text-align: center;
+    background-color: #80CDC0;
+    color:#FAFAF2;
+}
+.layui-fluid .layui-tab{
+    margin-top:0;
+}
+.layui-fluid .layui-tab-title{
+    background-color: #80CDC0;
+}
+.layui-fluid .layui-tab-title li{
+    color:#fff;
+}
+.layui-fluid .layui-tab-title .layui-this{
+    background-color: #fff;
+    color:#80CDC0;
+}
+.layuiForm{
+    padding:11px 15px;
+}
+.layui-tab-card .layui-tab-content{
+    padding:0;
+}
+.layuiForm .layui-form-label{
+    text-align: left;
+    /*width:60px;*/
+}
+.layuiForm .layui-input-block{
+    /*margin-left:90px;*/
+}
